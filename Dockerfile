@@ -1,10 +1,6 @@
 # Start from debian
 FROM debian:stretch-slim
 
-# Copy in files
-COPY ./entrypoint.sh /
-COPY ./bash.bashrc /etc/bash.bashrc
-
 # Update so we can download packages
 RUN apt-get update
 
@@ -28,7 +24,6 @@ RUN apt-get install -y ros-melodic-desktop
 # Set up ROS
 RUN rosdep init
 RUN rosdep update
-RUN echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> /etc/bash.bashrc
 
 # Install X server and VNC
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -58,9 +53,27 @@ RUN rm v$NO_VNC_VERSION.zip
 # Expose the NoVNC port
 EXPOSE 6080
 
-# Install a window manager
+# Install the racecar simulator
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y \
+    ros-melodic-tf2-geometry-msgs \
+    ros-melodic-ackermann-msgs \
+    ros-melodic-joy \
+    ros-melodic-map-server \
+    build-essential
+RUN mkdir -p /racecar_ws/src
+RUN git clone https://github.com/mit-racecar/racecar_simulator.git
+RUN mv racecar_simulator /racecar_ws/src
+RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd racecar_ws; catkin_make'
 
-# Install racecar code
+# Install a window manager
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y \
+    fluxbox
+
+# Copy in files
+COPY ./bash.bashrc /etc/bash.bashrc
+COPY ./entrypoint.sh /
 
 # Start X, VNC and NoVNC
 ENTRYPOINT ["/entrypoint.sh"]

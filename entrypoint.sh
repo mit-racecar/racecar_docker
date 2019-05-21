@@ -10,6 +10,7 @@ export DISPLAY=":0"
 Xvfb $DISPLAY -screen 0 1024x768x16 > log/xvfb.log 2>&1 &
 
 # Start the window manager
+fluxbox > log/fluxbox.log 2>&1 &
 
 # Start the VNC server
 x11vnc -many -display $DISPLAY -bg -nopw -xkb
