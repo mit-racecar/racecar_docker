@@ -64,15 +64,33 @@ RUN DEBIAN_FRONTEND=noninteractive \
 RUN mkdir -p /racecar_ws/src
 RUN git clone https://github.com/mit-racecar/racecar_simulator.git
 RUN mv racecar_simulator /racecar_ws/src
-RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd racecar_ws; catkin_make'
+RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd racecar_ws; catkin_make; catkin_make install'
+
+# Install some cool programs
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y \
+    vim \
+    nano \
+    gedit \
+    xterm \
+    screen \
+    tmux
 
 # Install a window manager
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -y \
-    fluxbox
+    openbox \
+    feh \
+    x11-xserver-utils
+
+# Kill the bell!
+RUN echo "set bell-style none" >> /etc/inputrc
 
 # Copy in files
 COPY ./bash.bashrc /etc/bash.bashrc
+COPY ./vimrc /root/.vimrc
+COPY ./Xresources /root/.Xresources
+COPY ./racecar.jpg /root/racecar.jpg
 COPY ./entrypoint.sh /
 
 # Start X, VNC and NoVNC
