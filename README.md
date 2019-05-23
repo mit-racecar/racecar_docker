@@ -12,12 +12,23 @@ To build the image run:
 
 ## Running the Image
 
+### Running in the Browser
+
 To use interface with the image in the browser, first run:
 
     sudo docker run -tip 6080:6080 racecar
 
 Then in the browser navigate to [http://localhost:6080/vnc.html](http://localhost:6080/vnc.html). Hit the "Connect" button and you're in!
 
+### Running through VNC
+
 Alternatively, you can interface with the image using a VNC client with address `localhost:5900` by running:
 
     sudo docker run -tip 5900:5900 racecar
+
+### Using a Joystick
+
+To connect a joystick to docker, first find your device location. It is most likely `/dev/input/js0`.
+Then connect by adding the `--device=/dev/input/js0` option.
+
+    sudo docker run -tip 6080:6080 --device=/dev/input/js0 racecar

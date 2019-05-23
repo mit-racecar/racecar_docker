@@ -81,16 +81,24 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -y \
     openbox \
     feh \
-    x11-xserver-utils
+    x11-xserver-utils \
+    plank \
+    dbus-x11
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
 
-# Copy in files
-COPY ./bash.bashrc /etc/bash.bashrc
-COPY ./vimrc /root/.vimrc
-COPY ./Xresources /root/.Xresources
-COPY ./racecar.jpg /root/racecar.jpg
+# Copy in dock files
+
+# Copy in config files
+COPY ./config/bash.bashrc /etc/
+COPY ./config/vimrc /root/.vimrc
+COPY ./config/Xresources /root/.Xresources
+COPY ./config/racecar.jpg /root/
+COPY ./config/default.rviz /root/.rviz/
+ENV PLANK_FOLDER /root/.config/plank/dock1/launchers
+RUN mkdir -p $PLANK_FOLDER
+COPY ./config/plank/* $PLANK_FOLDER/
 COPY ./entrypoint.sh /
 
 # Start X, VNC and NoVNC
