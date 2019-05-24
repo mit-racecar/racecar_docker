@@ -59,7 +59,7 @@ We recommend that you mount into the `/racecar_ws/src` folder.
 This is typically where all of your code will live while working with the racecar or the racecar simulator.
 You can do this by adding the following to your docker run command:
 
-    sudo docker run -tiv /full/path/to/local/folder:/racecar_ws/src --net=host racecar
+    sudo docker run -tiv /full/path/to/local/folder:/racecar_ws/src --net=host racecar/racecar
 
 ### Using a Joystick
 
@@ -67,7 +67,7 @@ To use a joystick in the image (e.g. to use with the simulator),
 you need to forward inputs from that USB device into docker.
 Most joysticks map to `/dev/input/js0` by default, so you can add that device with:
 
-    sudo docker run -ti --net=host --device=/dev/input/js0 racecar
+    sudo docker run -ti --net=host --device=/dev/input/js0 racecar/racecar
 
 ## Building the Image From Scratch
 
@@ -79,4 +79,4 @@ To build the image from scratch, run:
 
 Then run with:
 
-    sudo docker run -ti --net=host racecar/racecar
+    sudo docker run -ti --net=host racecar
