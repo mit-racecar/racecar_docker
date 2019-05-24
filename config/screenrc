@@ -1,0 +1,7 @@
+vbell off
+defshell -bash
+defscrollback 4096
+deflogin on
+
+# Remove dangerous binding
+bind ^k

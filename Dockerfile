@@ -79,7 +79,10 @@ RUN DEBIAN_FRONTEND=noninteractive \
     gedit \
     xterm \
     screen \
-    tmux
+    tmux \
+    locales
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+RUN locale-gen
 
 # Install a window manager
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -97,6 +100,7 @@ RUN echo "set bell-style none" >> /etc/inputrc
 COPY ./config/bash.bashrc /etc/
 COPY ./config/vimrc /root/.vimrc
 COPY ./config/Xresources /root/.Xresources
+COPY ./config/screenrc /etc/
 COPY ./config/racecar.jpg /root/
 COPY ./config/default.rviz /root/.rviz/
 ENV PLANK_FOLDER /root/.config/plank/dock1/launchers
