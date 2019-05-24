@@ -12,23 +12,29 @@ To build the image run:
 
 ## Running the Image
 
-### Running in the Browser
+Start the docker image by running:
 
-To use interface with the image in the browser, first run:
+    sudo docker run -ti --net=host racecar
 
-    sudo docker run -tip 6080:6080 racecar
+To view the image in the browser, navigate to [http://localhost:6080/vnc.html](http://localhost:6080/vnc.html). Hit the "Connect" button and you're in!
 
-Then in the browser navigate to [http://localhost:6080/vnc.html](http://localhost:6080/vnc.html). Hit the "Connect" button and you're in!
+Alternatively, you can interface with the image using any VNC client with address `localhost:5900`.
 
-### Running through VNC
+### Mounting a local drive
 
-Alternatively, you can interface with the image using a VNC client with address `localhost:5900` by running:
+Docker images do not save changes made to them by default.
+Plus, you may be more comfortable using a text editor you already have installed on your computer.
+To solve both of these issues, you can mount a local folder into the docker image.
+We recommend that you mount into the `/racecar_ws/src` folder.
+This is typically where all of your code will live while working with the racecar or the racecar simulator.
+You can do this by adding the following to your docker run command:
 
-    sudo docker run -tip 5900:5900 racecar
+    sudo docker run -tiv /full/path/to/local/folder:/racecar_ws/src --net=host racecar
 
 ### Using a Joystick
 
-To connect a joystick to docker, first find your device location. It is most likely `/dev/input/js0`.
-Then connect by adding the `--device=/dev/input/js0` option.
+To use a joystick in the image (e.g. to use with the simulator),
+you need to forward inputs from that USB device into docker.
+Most joysticks map to `/dev/input/js0` by default, so you can add that device with:
 
-    sudo docker run -tip 6080:6080 --device=/dev/input/js0 racecar
+    sudo docker run -ti --net=host --device=/dev/input/js0 racecar

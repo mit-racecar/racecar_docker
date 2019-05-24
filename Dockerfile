@@ -61,10 +61,15 @@ RUN DEBIAN_FRONTEND=noninteractive \
     ros-melodic-joy \
     ros-melodic-map-server \
     build-essential
-RUN mkdir -p /racecar_ws/src
+ENV SIM_WS /opt/ros/sim_ws
+RUN mkdir -p $SIM_WS/src
 RUN git clone https://github.com/mit-racecar/racecar_simulator.git
-RUN mv racecar_simulator /racecar_ws/src
-RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd racecar_ws; catkin_make; catkin_make install'
+RUN mv racecar_simulator $SIM_WS/src
+RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_make;'
+
+# Make a racecar workspace chained to the sim repo
+RUN mkdir -p /racecar_ws/src
+RUN /bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
 
 # Install some cool programs
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -87,8 +92,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
-
-# Copy in dock files
 
 # Copy in config files
 COPY ./config/bash.bashrc /etc/

@@ -4,7 +4,7 @@
 mkdir log
 
 # Define the display
-export DISPLAY=":0"
+export DISPLAY=":1"
 
 # Start the X server
 Xvfb $DISPLAY -screen 0 1024x768x16 > log/xvfb.log 2>&1 &
