@@ -49,6 +49,7 @@ ENV NO_VNC_VERSION 1.1.0
 RUN wget -q https://github.com/novnc/noVNC/archive/v$NO_VNC_VERSION.zip
 RUN unzip v$NO_VNC_VERSION.zip
 RUN rm v$NO_VNC_VERSION.zip
+RUN git clone https://github.com/novnc/websockify /noVNC-$NO_VNC_VERSION/utils/websockify
 
 # Expose the NoVNC port
 EXPOSE 6080
