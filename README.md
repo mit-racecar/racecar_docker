@@ -1,7 +1,7 @@
 # Racecar Docker
 
 This code defines a docker image with the minimal code required to interface with the MIT Racecar.
-The image is built from a Debian base, includes the latest version of ROS, and the [racecar simulator](https://github.com/mit-racecar/racecar_simulator). It can be interfaced with either through a browser or through a VNC client, allowing it to work on all modern operating systems.
+The image is built from a Debian base, includes the latest version of ROS, and the [racecar simulator](https://github.com/mit-racecar/racecar_simulator). It can be interfaced through a terminal or graphically through a browser or VNC client.
 
 ## Building the Image
 
@@ -16,14 +16,14 @@ Start the docker image by running:
 
     sudo docker run -ti --net=host racecar
 
-See the "Additional Docker Options" section for more useful flags.
+See the [Additional Docker Options](https://github.com/mit-racecar/racecar_docker#additional-docker-options) section for more useful flags.
 
 ## Using the Image
 
 When you run the command above, you will be presented with a new bash shell in the folder `racecar_ws`.
-This shell has ROS installed, for example try running `roscore`.
+This shell has ROS installed (e.g. try running `roscore`).
 It also has the programs `screen` and `tmux` installed.
-Each of these programs allow you to run many shells from within the same window.
+These programs allow you to run many shells from within the same window.
 
 In addition to the terminal interface, you can interact with the image visually through either your browser or through VNC.
 This allows you to use programs like `rviz`.

@@ -7,7 +7,7 @@ mkdir log
 export DISPLAY=":1"
 
 # Start the X server
-Xvfb $DISPLAY -screen 0 1024x768x16 > log/xvfb.log 2>&1 &
+Xvfb $DISPLAY -screen 0 1920x1080x16 > log/xvfb.log 2>&1 &
 
 # Start the VNC server
 x11vnc -many -display $DISPLAY -bg -nopw -repeat
