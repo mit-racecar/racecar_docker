@@ -11,11 +11,17 @@ Start the docker image by running:
 
 This will download the docker image the first time it is run and will cache it for future use.
 
+### Troubleshooting
+
 On some operating systems (OS X?) the `--net=host` flag does not properly forward ports. This can be fixed by manually specifying:
 
     sudo docker run -tip 6080:6080 -p 5900:5900 racecar/racecar
 
-See the [Additional Docker Options](https://github.com/mit-racecar/racecar_docker#additional-docker-options) section for more useful flags.
+If you are running Windows you may also need to run the following before running docker to get the terminal to work properly:
+
+     alias docker="winpty docker"
+
+See the [Additional Docker Options](https://github.com/mit-racecar/racecar_docker#additional-docker-options) section for more useful docker flags.
 
 ## Using the Image
 
@@ -30,6 +36,8 @@ This allows you to use programs like `rviz`.
 To use the image in the browser, navigate to [http://localhost:6080/vnc.html](http://localhost:6080/vnc.html). Hit the "Connect" button and you're in!
 
 Alternatively, you can interface with the image using any VNC client with address `localhost:5900`.
+
+Some operating systems (e.g. windows) don't like the `localhost` variable. If you can't connect you may have to type in the docker image's actual IP address. Find the IP address by typing `hostname -I` in the image's terminal. For example maybe its 18.0.0.1. Then use either of the links above, changing `localhost` to the correct IP. For example, [http://18.0.0.1:6080/vnc.html](http://18.0.0.1:6080/vnc.html).
 
 The visual interface has two buttons that launch a terminal and `rviz` respectively.
 By default, clicking on the terminal button when a terminal is already minimizes the window.
