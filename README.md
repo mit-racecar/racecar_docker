@@ -3,18 +3,17 @@
 This code defines a docker image with the minimal code required to interface with the MIT Racecar.
 The image is built from a Debian base, includes the latest version of ROS, and the [racecar simulator](https://github.com/mit-racecar/racecar_simulator). It can be interfaced through a terminal or graphically through a browser or VNC client.
 
-## Building the Image
-
-To build the image run:
-
-    cd racecar_docker
-    sudo docker build -t racecar .
-
 ## Running the Image
 
 Start the docker image by running:
 
-    sudo docker run -ti --net=host racecar
+    sudo docker run -ti --net=host racecar/racecar
+
+This will download the docker image the first time it is run and will cache it for future use.
+
+On some operating systems (OS X?) the `--net=host` flag does not properly forward ports. This can be fixed by manually specifying:
+
+    sudo docker run -tip 6080:6080 -p 5900:5900 racecar/racecar
 
 See the [Additional Docker Options](https://github.com/mit-racecar/racecar_docker#additional-docker-options) section for more useful flags.
 
@@ -69,3 +68,15 @@ you need to forward inputs from that USB device into docker.
 Most joysticks map to `/dev/input/js0` by default, so you can add that device with:
 
     sudo docker run -ti --net=host --device=/dev/input/js0 racecar
+
+## Building the Image From Scratch
+
+To build the image from scratch, run:
+
+    git clone https://github.com/mit-racecar/racecar_docker.git
+    cd racecar_docker
+    sudo docker build -t racecar .
+
+Then run with:
+
+    sudo docker run -ti --net=host racecar/racecar
