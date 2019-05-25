@@ -1,6 +1,6 @@
 # Racecar Docker
 
-This code defines a docker image with the minimal code required to interface with the MIT Racecar.
+This code defines a docker image to interface with the MIT Racecar.
 The image is built from a Debian base, includes the latest version of ROS, and the [racecar simulator](https://github.com/mit-racecar/racecar_simulator). It can be interfaced through a terminal or graphically through a browser or VNC client.
 
 ## Running the Image
@@ -9,11 +9,13 @@ Start the docker image by running:
 
     sudo docker run -ti --net=host racecar/racecar
 
-This will download the docker image the first time it is run and will cache it for future use.
+This will download the docker image the first time it is run and cache it for future use.
 
 ### Troubleshooting
 
-On some operating systems (OS X?) the `--net=host` flag does not properly forward ports. This can be fixed by manually specifying:
+Unfortunately, due to the way that networking is implemented in macOS, the `--net=host` flag does not work
+\[[1](https://docs.docker.com/docker-for-mac/networking/),[2](https://github.com/docker/for-mac/issues/2716)\].
+You can partially fix this by running:
 
     sudo docker run -tip 6080:6080 -p 5900:5900 racecar/racecar
 
@@ -37,10 +39,11 @@ To use the image in the browser, navigate to [http://localhost:6080/vnc.html](ht
 
 Alternatively, you can interface with the image using any VNC client with address `localhost:5900`.
 
-Some operating systems (e.g. windows) don't like the `localhost` variable. If you can't connect you may have to type in the docker image's actual IP address. Find the IP address by typing `hostname -I` in the image's terminal. For example maybe its 18.0.0.1. Then use either of the links above, changing `localhost` to the correct IP. For example, [http://18.0.0.1:6080/vnc.html](http://18.0.0.1:6080/vnc.html).
+Some operating systems (e.g. windows) don't like the `localhost` variable. If you can't connect you may have to type in the docker image's actual IP address. Find the IP address by typing `hostname -I` in the image's terminal.
+Then visit either of the links above, replacing `localhost` with this IP.
 
 The visual interface has two buttons that launch a terminal and `rviz` respectively.
-By default, clicking on the terminal button when a terminal is already minimizes the window.
+By default, clicking on the terminal button when a terminal is already open minimizes that window.
 To open multiple terminals, type <kbd>CTRL</kbd> and then click on the terminal icon.
 
 ### Running the Racecar Simulator
@@ -55,6 +58,18 @@ If you click the green 2D Pose Estimate arrow on the top you can change the posi
 Alternatively use a joystick to drive the car as described below.
 
 ## Additional Docker Options
+
+### Running on a specific car
+
+By default the image is set up to use ROS locally. If you want to connect the image to another `rosmaster` (e.g. a racecar) you need to change some ROS variables. You can do this automatically by running:
+
+    sudo docker run -ti --net=host racecar/racecar CAR_NUMBER
+
+This sets the correct `ROS_IP`, `ROS_MASTER_URI`, and `/etc/hosts` variables, assuming that the car's IP is `192.168.1.CAR_NUMBER`. When you launch `rviz` it will display topics published on the racecar. Note that this won't work on macOS due to the networking issues described above.
+
+You will also be able to `ssh` into the racecar from within the docker image by typing:
+
+    ssh racecar@racecar
 
 ### Mounting a local drive
 

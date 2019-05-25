@@ -1,7 +1,7 @@
-*xterm*background: #101010
+*xterm*background: #231f20
 *xterm*foreground: #d0d0d0
 *xterm*cursorColor: #d0d0d0
-*xterm*color0: #101010
+*xterm*color0: #231f20
 *xterm*color1: #960050
 *xterm*color2: #66aa11
 *xterm*color3: #c47f2c

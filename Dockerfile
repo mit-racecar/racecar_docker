@@ -108,6 +108,7 @@ ENV PLANK_FOLDER /root/.config/plank/dock1/launchers
 RUN mkdir -p $PLANK_FOLDER
 COPY ./config/plank/* $PLANK_FOLDER/
 COPY ./entrypoint.sh /
+COPY ./README.md /
 
 # Start X, VNC and NoVNC
 ENTRYPOINT ["/entrypoint.sh"]
