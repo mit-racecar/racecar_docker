@@ -5,11 +5,15 @@ The image is built from a Debian base, includes the latest version of ROS, and t
 
 ## Running the Image
 
+If you do not already have docker, follow the install instructions for your OS [here](https://docs.docker.com/install/).
+
 Start the docker image by running:
 
     sudo docker run -ti --net=host racecar/racecar
 
-This will download the docker image the first time it is run and cache it for future use.
+The first time you run this command you will need to wait a little while for the image to download.
+Future runs should be instantaneous and won't require an internet connection.
+The image is currently ~2.25GB (ROS is big).
 
 ### Troubleshooting
 
