@@ -9,7 +9,7 @@ If you do not already have docker, follow the install instructions for your OS [
 
 Start the docker image by running:
 
-    sudo docker run -ti --net=host racecar/racecar
+    sudo docker run -ti --net=host fishberg/racecar
 
 The first time you run this command you will need to wait a little while for the image to download.
 Future runs should be instantaneous and won't require an internet connection.
