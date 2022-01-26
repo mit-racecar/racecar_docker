@@ -25,10 +25,9 @@ RUN apt install -y \
 RUN rosdep init
 RUN rosdep update
 
-# Install X server, VNC and things to install noVNC
+# Install VNC and things to install noVNC
 RUN apt install -y \
-    xvfb \
-    x11vnc \
+    tigervnc-standalone-server \
     wget \
     git \
     unzip
@@ -38,13 +37,13 @@ ENV NO_VNC_VERSION 1.3.0
 RUN wget -q https://github.com/novnc/noVNC/archive/v$NO_VNC_VERSION.zip
 RUN unzip v$NO_VNC_VERSION.zip
 RUN rm v$NO_VNC_VERSION.zip
-#RUN git clone https://github.com/novnc/websockify /noVNC-$NO_VNC_VERSION/utils/websockify
 
 # Install a window manager
 RUN apt install -y \
     openbox \
     feh \
     x11-xserver-utils \
+    xterm \
     plank \
     dbus-x11
 
@@ -71,7 +70,6 @@ RUN apt install -y \
     vim \
     nano \
     gedit \
-    xterm \
     screen \
     tmux \
     locales
@@ -83,7 +81,6 @@ RUN locale-gen
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
 
-# Copy in config files
 COPY ./config/bash.bashrc /etc/
 COPY ./config/vimrc /root/.vimrc
 COPY ./config/Xresources /root/.Xresources
@@ -93,5 +90,7 @@ COPY ./config/default.rviz /root/.rviz/
 ENV PLANK_FOLDER /root/.config/plank/dock1/launchers
 RUN mkdir -p $PLANK_FOLDER
 COPY ./config/plank/* $PLANK_FOLDER/
+
+# Copy startup files
 COPY ./entrypoint.sh /
-COPY ./README.md /
+COPY ./xstartup.sh /
