@@ -13,7 +13,7 @@ Xvfb $DISPLAY -screen 0 1920x1080x16 > log/xvfb.log 2>&1 &
 x11vnc -many -display $DISPLAY -bg -nopw -repeat > log/x11vnc.log 2>&1
 
 # Start NoVNC
-./noVNC-$NO_VNC_VERSION/utils/launch.sh --vnc localhost:5900 > log/NoVNC.log 2>&1 &
+./noVNC-$NO_VNC_VERSION/utils/novnc_proxy --vnc 0.0.0.0:5900 --listen 0.0.0.0:6080 > log/NoVNC.log 2>&1 &
 
 # Source ROS
 source /racecar_ws/devel/setup.bash
@@ -54,15 +54,15 @@ printf "Welcome to the racecar docker image!"
 printf "\n\n"
 printf "To use graphical programs like rviz, navigate to"
 printf "\n"
-printf "http://$IP:6080/vnc.html"
+printf "http://localhost:6080/vnc.html"
 printf "\n\n"
 printf "Alternatively, point any VNC client to"
 printf "\n"
-printf "$IP:5900"
+printf "localhost:5900"
 printf "\n\n"
 printf "For instructions on connecting to a racecar,\n"
 printf "mounting a local drive, connecting to a joystick,\n"
 printf "etc. reference /README.md\n"
 
-# Start a bash shell
-/bin/bash -c bash
+# Hang
+tail -f

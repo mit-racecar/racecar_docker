@@ -1,66 +1,59 @@
 # Start from debian
-FROM debian:stretch-slim
+FROM debian:10.11-slim
 
 # Update so we can download packages
-RUN apt-get update
+RUN apt update
 
 #Set the ROS distro
-ENV ROS_DISTRO melodic
+ENV ROS_DISTRO noetic
 
 # Add the ROS keys and package
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
+RUN apt install -y \
     lsb-release \
+    curl \
     gnupg
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN mkdir ~/.gnupg
-RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
-RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+RUN curl -s "https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc" | apt-key add -
 
 # Install ROS
-RUN apt-get update
-RUN apt-get install -y ros-melodic-desktop
+RUN apt update
+RUN apt install -y \
+    ros-$ROS_DISTRO-desktop \
+    python3-rosdep
 
 # Set up ROS
 RUN rosdep init
 RUN rosdep update
 
-# Install X server and VNC
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
+# Install X server, VNC and things to install noVNC
+RUN apt install -y \
     xvfb \
-    x11vnc
-
-# Expose the VNC port
-EXPOSE 5900
-
-# Install dependencies for NoVNC
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
+    x11vnc \
     wget \
-    unzip \
     git \
-    procps \
-    python \
-    python-numpy
+    unzip
 
 # Download NoVNC and unpack
-ENV NO_VNC_VERSION 1.1.0
+ENV NO_VNC_VERSION 1.3.0
 RUN wget -q https://github.com/novnc/noVNC/archive/v$NO_VNC_VERSION.zip
 RUN unzip v$NO_VNC_VERSION.zip
 RUN rm v$NO_VNC_VERSION.zip
-RUN git clone https://github.com/novnc/websockify /noVNC-$NO_VNC_VERSION/utils/websockify
+#RUN git clone https://github.com/novnc/websockify /noVNC-$NO_VNC_VERSION/utils/websockify
 
-# Expose the NoVNC port
-EXPOSE 6080
+# Install a window manager
+RUN apt install -y \
+    openbox \
+    feh \
+    x11-xserver-utils \
+    plank \
+    dbus-x11
 
 # Install the racecar simulator
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
-    ros-melodic-tf2-geometry-msgs \
-    ros-melodic-ackermann-msgs \
-    ros-melodic-joy \
-    ros-melodic-map-server \
+RUN apt install -y \
+    ros-$ROS_DISTRO-tf2-geometry-msgs \
+    ros-$ROS_DISTRO-ackermann-msgs \
+    ros-$ROS_DISTRO-joy \
+    ros-$ROS_DISTRO-map-server \
     build-essential
 ENV SIM_WS /opt/ros/sim_ws
 RUN mkdir -p $SIM_WS/src
@@ -73,8 +66,8 @@ RUN mkdir -p /racecar_ws/src
 RUN /bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
 
 # Install some cool programs
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
+RUN apt install -y \
+    python3-numpy \
     vim \
     nano \
     gedit \
@@ -82,17 +75,10 @@ RUN DEBIAN_FRONTEND=noninteractive \
     screen \
     tmux \
     locales
+
+# Set the locale
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
-
-# Install a window manager
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
-    openbox \
-    feh \
-    x11-xserver-utils \
-    plank \
-    dbus-x11
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
@@ -109,6 +95,3 @@ RUN mkdir -p $PLANK_FOLDER
 COPY ./config/plank/* $PLANK_FOLDER/
 COPY ./entrypoint.sh /
 COPY ./README.md /
-
-# Start X, VNC and NoVNC
-ENTRYPOINT ["/entrypoint.sh"]
