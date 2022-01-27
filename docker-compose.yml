@@ -4,6 +4,7 @@ services:
 
   racecar:
     build: .
+    image: racecar/racecar:latest
     ports:
       - 6080:6080
     entrypoint: ./.entrypoint.sh
