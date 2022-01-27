@@ -22,15 +22,21 @@ if [ -n "$1" ]; then
 fi
 
 # Welcome message
-printf "Welcome to the racecar docker image!"
-printf "\n\n"
-printf "To use graphical programs like rviz, navigate to"
 printf "\n"
-printf "http://localhost:6080/vnc.html?resize=remote"
+printf "~~~~~Welcome to the racecar docker image!~~~~~"
 printf "\n\n"
-printf "For instructions on connecting to a racecar,\n"
-printf "mounting a local drive, connecting to a joystick,\n"
-printf "etc. reference /README.md\n"
+printf "To interface via a local terminal, open a new"
+printf "\n"
+printf "terminal and run:"
+printf "\n\n"
+printf "  docker-compose exec racecar bash"
+printf "\n\n"
+printf "To use graphical programs like rviz, navigate"
+printf "\n"
+printf "to:"
+printf "\n\n"
+printf "  http://localhost:6080/vnc.html?resize=remote"
+printf "\n"
 
 # Hang
 tail -f
