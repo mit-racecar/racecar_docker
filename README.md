@@ -1,69 +1,47 @@
 # Racecar Docker
 
 This code defines a docker image to interface with the MIT Racecar.
-The image is built from a Debian base, includes the latest version of ROS, and the [racecar simulator](https://github.com/mit-racecar/racecar_simulator). It can be interfaced through a terminal or graphically through a browser or VNC client.
+The image is built from a Debian base, includes the latest version of ROS, and the [racecar simulator](https://github.com/mit-racecar/racecar_simulator). It can be interfaced through a terminal or graphically through a browser.
 
 ## Running the Image
 
 If you do not already have docker, follow the install instructions for your OS [here](https://docs.docker.com/install/).
 
-Start the docker image by running:
+Then download this docker image and build it:
 
-    sudo docker run -ti --net=host racecar/racecar
+    git clone https://github.com/mit-racecar/racecar_docker.git
+    cd racecar-docker
+    sudo docker-compose up --build
 
-The first time you run this command you will need to wait a little while for the image to download.
-Future runs should be instantaneous and won't require an internet connection.
-The image is currently ~2.25GB (ROS is big).
+The first time you build it will take a little while, but in the future it should be almost instantaneous.
 
-### Troubleshooting
+Once the image has been built, follow the instructions in the command prompt to connect via either a terminal or your browser.
+If you're using the browser interface, click "Connect" then right click anywhere on the black background to launch a terminal.
 
-Unfortunately, due to the way that networking is implemented in macOS, the `--net=host` flag does not work
-\[[1](https://docs.docker.com/docker-for-mac/networking/),[2](https://github.com/docker/for-mac/issues/2716)\].
-You can partially fix this by running:
+### Example Usage
 
-    sudo docker run -tip 6080:6080 -p 5900:5900 racecar/racecar
-
-If you are running Windows you may also need to run the following before running docker to get the terminal to work properly:
-
-     alias docker="winpty docker"
-
-See the [Additional Docker Options](https://github.com/mit-racecar/racecar_docker#additional-docker-options) section for more useful docker flags.
-
-## Using the Image
-
-When you run the command above, you will be presented with a new bash shell in the folder `racecar_ws`.
-This shell has ROS installed (e.g. try running `roscore`).
-It also has the programs `screen` and `tmux` installed.
-These programs allow you to run many shells from within the same window.
-
-In addition to the terminal interface, you can interact with the image visually through either your browser or through VNC.
-This allows you to use programs like `rviz`.
-
-To use the image in the browser, navigate to [http://localhost:6080/vnc.html](http://localhost:6080/vnc.html). Hit the "Connect" button and you're in!
-
-Alternatively, you can interface with the image using any VNC client with address `localhost:5900`.
-
-Some operating systems (e.g. windows) don't like the `localhost` variable. If you can't connect you may have to type in the docker image's actual IP address. Find the IP address by typing `hostname -I` in the image's terminal.
-Then visit either of the links above, replacing `localhost` with this IP.
-
-The visual interface has two buttons that launch a terminal and `rviz` respectively.
-By default, clicking on the terminal button when a terminal is already open minimizes that window.
-To open multiple terminals, type <kbd>CTRL</kbd> and then click on the terminal icon.
-
-### Running the Racecar Simulator
-
-To get started with the simulator, first run the following in any shell:
+Connect via the graphical interface, open up a terminal and enter:
 
     roslaunch racecar_simulator simulate.launch
 
-Then open `rviz`.
-You should see a blue car on a black and white background (a map) and some colorful dots (simulated lidar).
-If you click the green 2D Pose Estimate arrow on the top you can change the position of the car.
-Alternatively use a joystick to drive the car as described below.
+Then right click on the background and select `rviz`.
+A graphical interface should pop up that shows a blue car on a monochrome background (a map) and some colorful dots (simulated lidar).
+If you click the green "2D Pose Estimate" arrow on the top and then drag on the map you can change the position of the car.
 
-## Additional Docker Options
+### Shutting Down
 
-### Running on a specific car
+To stop the image, run:
+
+    sudo docker-compose down
+
+You might get strange errors if you try to relaunch the image without properly shutting it down.
+
+## Local Storage
+
+**WARNING**: any changes made to the `~/racecar_ws/src` folder will be saved to `racecar_docker/src` on your local machine but ANY OTHER CHANGES WILL BE DELETED WHEN YOU RESTART THE DOCKER IMAGE.
+The only changes you will ever need to make for your labs will be in the `~/racecar_ws/src` folder, so ideally this should never be a problem, *just be careful*.
+
+## Connecting to a specific car
 
 By default the image is set up to use ROS locally. If you want to connect the image to another `rosmaster` (e.g. a racecar) you need to change some ROS variables. You can do this automatically by running:
 
@@ -75,35 +53,6 @@ You will also be able to `ssh` into the racecar from within the docker image by 
 
     ssh racecar@racecar
 
-### Mounting a local drive
+## Customization
 
-Docker images do not save changes made to them by default which can be dangerous when writing lots of code.
-Plus, the docker image may not have your favorite text editor, window manager, etc. installed.
-To solve both of these issues, you can mount a local folder into the docker image.
-This will make sure your changes are written and give you the freedom to edit the code in whatever environment you would like.
-
-We recommend that you mount into the `/racecar_ws/src` folder.
-This is typically where all of your code will live while working with the racecar or the racecar simulator.
-You can do this by adding the following to your docker run command:
-
-    sudo docker run -tiv /full/path/to/local/folder:/racecar_ws/src --net=host racecar/racecar
-
-### Using a Joystick
-
-To use a joystick in the image (e.g. to use with the simulator),
-you need to forward inputs from that USB device into docker.
-Most joysticks map to `/dev/input/js0` by default, so you can add that device with:
-
-    sudo docker run -ti --net=host --device=/dev/input/js0 racecar/racecar
-
-## Building the Image From Scratch
-
-To build the image from scratch, run:
-
-    git clone https://github.com/mit-racecar/racecar_docker.git
-    cd racecar_docker
-    sudo docker build -t racecar .
-
-Then run with:
-
-    sudo docker run -ti --net=host racecar
+Feel free to fork this repository to customize the image with your own editors, key commands, window managers, themes, etc.
