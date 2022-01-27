@@ -6,6 +6,7 @@ services:
     build: .
     ports:
       - 6080:6080
-    stdin_open: true
-    tty: true
     entrypoint: ./.entrypoint.sh
+    volumes:
+      - ./src:/home/racecar/racecar_ws/src
+      - /dev:/dev

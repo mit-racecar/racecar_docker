@@ -44,7 +44,6 @@ RUN apt install -y \
     openbox \
     x11-xserver-utils \
     xterm \
-    plank \
     dbus-x11
 
 # Install the racecar simulator
@@ -62,14 +61,16 @@ RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_mak
 
 # Install some cool programs
 RUN apt install -y \
-    python3-numpy \
+    sudo \
     vim \
     nano \
     gedit \
     screen \
     tmux \
     locales \
-    sudo
+    iputils-ping \
+    feh \
+    python3-numpy
 
 # Set the locale
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
@@ -95,9 +96,7 @@ COPY ./config/vimrc .vimrc
 COPY ./config/Xresources .Xresources
 COPY ./config/screenrc .screenrc
 COPY ./config/default.rviz .rviz/
-ENV PLANK_FOLDER .config/plank/dock1/launchers
-RUN mkdir -p $PLANK_FOLDER
-COPY ./config/plank/* $PLANK_FOLDER/
+COPY ./config/openbox/* .config/openbox/
 
 # Copy startup files
 COPY ./entrypoint.sh .entrypoint.sh

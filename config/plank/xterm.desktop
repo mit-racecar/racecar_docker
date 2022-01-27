@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=/usr/bin/xterm
-Icon=/usr/share/icons/hicolor/scalable/apps/xterm-color.svg
-Name=xterm
-Comment=xterm

@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=/opt/ros/noetic/bin/rviz
-Icon=/opt/ros/noetic/share/rviz/icons/package.png
-Name=Rviz
-Comment=Rviz
