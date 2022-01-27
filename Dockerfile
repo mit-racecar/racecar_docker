@@ -37,11 +37,11 @@ ENV NO_VNC_VERSION 1.3.0
 RUN wget -q https://github.com/novnc/noVNC/archive/v$NO_VNC_VERSION.zip
 RUN unzip v$NO_VNC_VERSION.zip
 RUN rm v$NO_VNC_VERSION.zip
+RUN git clone https://github.com/novnc/websockify /noVNC-$NO_VNC_VERSION/utils/websockify
 
 # Install a window manager
 RUN apt install -y \
     openbox \
-    feh \
     x11-xserver-utils \
     xterm \
     plank \
@@ -60,10 +60,6 @@ RUN git clone https://github.com/mit-racecar/racecar_simulator.git
 RUN mv racecar_simulator $SIM_WS/src
 RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_make;'
 
-# Make a racecar workspace chained to the sim repo
-RUN mkdir -p /racecar_ws/src
-RUN /bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
-
 # Install some cool programs
 RUN apt install -y \
     python3-numpy \
@@ -72,7 +68,8 @@ RUN apt install -y \
     gedit \
     screen \
     tmux \
-    locales
+    locales \
+    sudo
 
 # Set the locale
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
@@ -81,16 +78,27 @@ RUN locale-gen
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
 
-COPY ./config/bash.bashrc /etc/
-COPY ./config/vimrc /root/.vimrc
-COPY ./config/Xresources /root/.Xresources
-COPY ./config/screenrc /etc/
-COPY ./config/racecar.jpg /root/
-COPY ./config/default.rviz /root/.rviz/
-ENV PLANK_FOLDER /root/.config/plank/dock1/launchers
+# Creat a user
+RUN useradd -ms /bin/bash racecar
+RUN echo 'racecar:racecar@mit' | chpasswd
+RUN adduser racecar sudo
+USER racecar
+WORKDIR /home/racecar
+
+# Make a racecar workspace chained to the sim repo
+RUN mkdir -p racecar_ws/src
+RUN /bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
+
+# Copy UI files
+COPY ./config/bash.bashrc .bashrc
+COPY ./config/vimrc .vimrc
+COPY ./config/Xresources .Xresources
+COPY ./config/screenrc .screenrc
+COPY ./config/default.rviz .rviz/
+ENV PLANK_FOLDER .config/plank/dock1/launchers
 RUN mkdir -p $PLANK_FOLDER
 COPY ./config/plank/* $PLANK_FOLDER/
 
 # Copy startup files
-COPY ./entrypoint.sh /
-COPY ./xstartup.sh /
+COPY ./entrypoint.sh .entrypoint.sh
+COPY ./xstartup.sh .xstartup.sh

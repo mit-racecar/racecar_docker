@@ -6,7 +6,6 @@ services:
     build: .
     ports:
       - 6080:6080
-      - 5900:5900
     stdin_open: true
     tty: true
-    entrypoint: ./entrypoint.sh
+    entrypoint: ./.entrypoint.sh

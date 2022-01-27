@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Make a logging directory
-mkdir log
+mkdir .log
 
 # Start the VNC server
-vncserver -SecurityTypes None -xstartup ./xstartup.sh > log/TigerVNC.log 2>&1
+vncserver -SecurityTypes None -xstartup ./.xstartup.sh > .log/TigerVNC.log 2>&1
 
 # Start NoVNC
-./noVNC-$NO_VNC_VERSION/utils/novnc_proxy --vnc 0.0.0.0:5901 --listen 0.0.0.0:6080 > log/NoVNC.log 2>&1 &
+exec /noVNC-$NO_VNC_VERSION/utils/novnc_proxy --vnc 0.0.0.0:5901 --listen 0.0.0.0:6080 > .log/NoVNC.log 2>&1 &
 
 # If the car number is set, set up ROS hostnames
 if [ -n "$1" ]; then
@@ -22,16 +22,11 @@ if [ -n "$1" ]; then
 fi
 
 # Welcome message
-IP=$(hostname -I | grep -o [0-9.]* | head -1)
 printf "Welcome to the racecar docker image!"
 printf "\n\n"
 printf "To use graphical programs like rviz, navigate to"
 printf "\n"
-printf "http://localhost:6080/vnc.html"
-printf "\n\n"
-printf "Alternatively, point any VNC client to"
-printf "\n"
-printf "localhost:5900"
+printf "http://localhost:6080/vnc.html?resize=remote"
 printf "\n\n"
 printf "For instructions on connecting to a racecar,\n"
 printf "mounting a local drive, connecting to a joystick,\n"
