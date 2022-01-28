@@ -52,29 +52,34 @@ RUN apt install -y \
     ros-$ROS_DISTRO-ackermann-msgs \
     ros-$ROS_DISTRO-joy \
     ros-$ROS_DISTRO-map-server \
-    build-essential
+    build-essential \
+    cython3
 ENV SIM_WS /opt/ros/sim_ws
 RUN mkdir -p $SIM_WS/src
 RUN git clone https://github.com/mit-racecar/racecar_simulator.git
 RUN mv racecar_simulator $SIM_WS/src
 RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_make;'
 
+# Set the locale and keyboard
+RUN apt install -y \
+    locales
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+RUN locale-gen
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt install -y \
+    console-setup
+
 # Install some cool programs
 RUN apt install -y \
     sudo \
     vim \
+    emacs \
     nano \
     gedit \
     screen \
     tmux \
-    locales \
     iputils-ping \
-    feh \
-    python3-numpy
-
-# Set the locale
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-RUN locale-gen
+    feh
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
