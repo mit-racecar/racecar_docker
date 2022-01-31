@@ -3,7 +3,6 @@ FROM debian:stretch-slim
 
 # Update so we can download packages
 RUN apt update
-
 #Set the ROS distro
 ENV ROS_DISTRO melodic
 
@@ -95,17 +94,3 @@ USER racecar
 WORKDIR /home/racecar
 
 # Make a racecar workspace chained to the sim repo
-RUN mkdir -p racecar_ws/src
-RUN /bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
-
-# Copy UI files
-COPY ./config/bash.bashrc .bashrc
-COPY ./config/vimrc .vimrc
-COPY ./config/Xresources .Xresources
-COPY ./config/screenrc .screenrc
-COPY ./config/default.rviz .rviz/
-COPY ./config/openbox/* .config/openbox/
-
-# Copy startup files
-COPY ./entrypoint.sh .entrypoint.sh
-COPY ./xstartup.sh .xstartup.sh

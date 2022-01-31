@@ -10,7 +10,7 @@ services:
       - 11311:11311
     entrypoint: ./.entrypoint.sh
     volumes:
-      - ./src:/home/racecar/racecar_ws/src
-      - /dev:/dev
+      - ./home:/home/racecar
+
     extra_hosts:
       racecar: 127.0.0.1

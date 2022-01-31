@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Make a logging directory
-mkdir .log
-
-# Set the ROS IP
+# Set up ROS
+/bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
 export ROS_IP=$(hostname -I)
 
 # Start the VNC server
