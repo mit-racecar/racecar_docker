@@ -59,6 +59,21 @@ If you try to rerun `docker-compose up` without first running `docker-compose do
 Any changes made to the `~/racecar_ws/src` folder will be saved to `racecar_docker/src` on your local machine but **ANY OTHER CHANGES WILL BE DELETED WHEN YOU RESTART THE DOCKER IMAGE**.
 The only changes you will ever need to make for your labs will be in the `~/racecar_ws/src` folder, so ideally this should never be a problem --- *just be careful* not to keep any important files outside of that folder.
 
+## Connecting to a physical racecar
+
+To connect your docker image to a ROS master running on a physical racecar, open the `docker-compose.yml` and change the `racecar` hostname under the `extra_hosts` field from `127.0.0.1` to your car's IP. For example, for car number 100 you would put:
+
+    extra_hosts:
+      racecar: 192.168.1.100
+
+Then restart the docker image. This does not require the image to be rebuilt. You should be able to `ssh` into your racecar by simply typing:
+
+    ssh racecar
+
+If you publish to topics on the racecar you should be able to print them via `rostopic echo` or visualize them in RViz on your docker image.
+
+To switch back to a local ROS master just change the hostname back to `127.0.0.1` and restart the image.
+
 ## Custom Builds
 
 If you want to change the docker image and rebuild locally, all you need to do is add a `--build` flag:

@@ -7,7 +7,10 @@ services:
     image: racecar/racecar:latest
     ports:
       - 6080:6080
+      - 11311:11311
     entrypoint: ./.entrypoint.sh
     volumes:
       - ./src:/home/racecar/racecar_ws/src
       - /dev:/dev
+    extra_hosts:
+      racecar: 127.0.0.1

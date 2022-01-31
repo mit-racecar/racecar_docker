@@ -1,11 +1,11 @@
 # Start from debian
-FROM debian:10.11-slim
+FROM debian:stretch-slim
 
 # Update so we can download packages
 RUN apt update
 
 #Set the ROS distro
-ENV ROS_DISTRO noetic
+ENV ROS_DISTRO melodic
 
 # Add the ROS keys and package
 RUN apt install -y \
@@ -19,7 +19,7 @@ RUN curl -s "https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc" | a
 RUN apt update
 RUN apt install -y \
     ros-$ROS_DISTRO-desktop \
-    python3-rosdep
+    python-rosdep
 
 # Set up ROS
 RUN rosdep init
@@ -53,12 +53,15 @@ RUN apt install -y \
     ros-$ROS_DISTRO-joy \
     ros-$ROS_DISTRO-map-server \
     build-essential \
-    cython3
+    cython
 ENV SIM_WS /opt/ros/sim_ws
 RUN mkdir -p $SIM_WS/src
 RUN git clone https://github.com/mit-racecar/racecar_simulator.git
 RUN mv racecar_simulator $SIM_WS/src
 RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_make;'
+
+# Add the ROS master
+ENV ROS_MASTER_URI http://racecar:11311
 
 # Set the locale and keyboard
 RUN apt install -y \
