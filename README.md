@@ -56,8 +56,8 @@ If you try to rerun `docker-compose up` without first running `docker-compose do
 
 ## Local Storage
 
-Any changes made to the `~/racecar_ws/src` folder will be saved to `racecar_docker/src` on your local machine but **ANY OTHER CHANGES WILL BE DELETED WHEN YOU RESTART THE DOCKER IMAGE**.
-The only changes you will ever need to make for your labs will be in the `~/racecar_ws/src` folder, so ideally this should never be a problem --- *just be careful* not to keep any important files outside of that folder.
+Any changes made to the your home folder in the docker image (`/home/racecar`) will be saved to the `racecar_docker/home` directory your local machine but **ANY OTHER CHANGES WILL BE DELETED WHEN YOU RESTART THE DOCKER IMAGE**.
+The only changes you will ever need to make for your labs will be in your home folder, so ideally this should never be a problem --- *just be careful* not to keep any important files outside of that folder.
 
 ## Connecting to a physical racecar
 
