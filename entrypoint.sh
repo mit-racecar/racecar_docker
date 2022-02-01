@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Fix line endings on all files in the home
-# directory because they might be from Windows
-find $HOME -type f -exec dos2unix '{}' '+' > $HOME/.log/dos2unix.log 2>&1
+# Set up debug
+mkdir -p $HOME/.log
 
 # Set up ROS
+mkdir -p $HOME/racecar_ws/src
 /bin/bash -c 'source $SIM_WS/devel/setup.bash; cd $HOME/racecar_ws; catkin_make;'
 export ROS_IP=$(hostname -I)
 

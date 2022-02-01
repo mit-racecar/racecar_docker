@@ -81,8 +81,7 @@ RUN apt install -y \
     screen \
     tmux \
     iputils-ping \
-    feh \
-    dos2unix
+    feh
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
@@ -90,6 +89,14 @@ RUN echo "set bell-style none" >> /etc/inputrc
 # Copy in the entrypoint
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 COPY ./xstartup.sh /usr/bin/xstartup.sh
+
+# Copy in default config files
+COPY ./config/bash.bashrc /etc/
+COPY ./config/screenrc /etc/
+COPY ./config/vimrc /etc/vim/vimrc
+ADD ./config/openbox /etc/X11/openbox/
+COPY ./config/XTerm /etc/X11/app-defaults/
+COPY ./config/default.rviz /opt/ros/$ROS_DISTRO/share/rviz/
 
 # Creat a user
 RUN useradd -ms /bin/bash racecar

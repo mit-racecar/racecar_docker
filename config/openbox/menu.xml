@@ -10,7 +10,7 @@
     <action name="Execute"><execute>xterm</execute></action>
   </item>
   <item label="RViz">
-    <action name="Execute"><execute>/home/racecar/.config/openbox/open_rviz.sh</execute></action>
+    <action name="Execute"><execute>/etc/X11/openbox/open_rviz.sh</execute></action>
   </item>
 </menu>
 
