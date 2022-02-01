@@ -1,14 +1,18 @@
 #!/bin/bash
 
+# Fix line endings on all files in the home
+# directory because they might be from Windows
+find $HOME -type f -exec dos2unix '{}' '+' > $HOME/.log/dos2unix.log 2>&1
+
 # Set up ROS
-/bin/bash -c 'source $SIM_WS/devel/setup.bash; cd racecar_ws; catkin_make;'
+/bin/bash -c 'source $SIM_WS/devel/setup.bash; cd $HOME/racecar_ws; catkin_make;'
 export ROS_IP=$(hostname -I)
 
 # Start the VNC server
-vncserver -SecurityTypes None -xstartup ./.xstartup.sh > .log/TigerVNC.log 2>&1
+vncserver -SecurityTypes None -xstartup xstartup.sh > $HOME/.log/TigerVNC.log 2>&1
 
 # Start NoVNC
-exec /noVNC-$NO_VNC_VERSION/utils/novnc_proxy --vnc 0.0.0.0:5901 --listen 0.0.0.0:6080 > .log/NoVNC.log 2>&1 &
+exec /noVNC-$NO_VNC_VERSION/utils/novnc_proxy --vnc 0.0.0.0:5901 --listen 0.0.0.0:6080 > $HOME/.log/NoVNC.log 2>&1 &
 
 # Welcome message
 printf "\n"

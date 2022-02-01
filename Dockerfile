@@ -81,10 +81,15 @@ RUN apt install -y \
     screen \
     tmux \
     iputils-ping \
-    feh
+    feh \
+    dos2unix
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
+
+# Copy in the entrypoint
+COPY ./entrypoint.sh /usr/bin/entrypoint.sh
+COPY ./xstartup.sh /usr/bin/xstartup.sh
 
 # Creat a user
 RUN useradd -ms /bin/bash racecar
@@ -92,5 +97,3 @@ RUN echo 'racecar:racecar@mit' | chpasswd
 RUN adduser racecar sudo
 USER racecar
 WORKDIR /home/racecar
-
-# Make a racecar workspace chained to the sim repo

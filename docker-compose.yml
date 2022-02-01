@@ -8,7 +8,7 @@ services:
     ports:
       - 6080:6080
       - 11311:11311
-    entrypoint: ./.entrypoint.sh
+    entrypoint: entrypoint.sh
     volumes:
       - ./home:/home/racecar
 

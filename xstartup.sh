@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Start the window manager
-openbox > .log/openbox.log 2>&1 &
+openbox > $HOME/.log/openbox.log 2>&1 &
 
 # Merge in Xresources
-xrdb -merge .Xresources
+xrdb -merge $HOME/.Xresources
 
 # Make keyboard repeat fast
 xset r rate 150 30
