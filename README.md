@@ -50,8 +50,6 @@ Once the software is installed, run
 
 You're in!
 
-**Tip**: You can move windows around by holding <kbd>Alt</kbd> or <kbd>Command</kbd> (depending on your OS) and clicking and dragging *anywhere* on a window. Use this to recover your windows if the title bar at the top of a window goes off screen.
-
 ## Shutting Down
 
 To stop the image, run:
@@ -64,6 +62,11 @@ If you try to rerun `docker compose up` without first running `docker compose do
 
 Any changes made to the your home folder in the docker image (`/home/racecar`) will be saved to the `racecar_docker/home` directory your local machine but **ANY OTHER CHANGES WILL BE DELETED WHEN YOU RESTART THE DOCKER IMAGE**.
 The only changes you will ever need to make for your labs will be in your home folder, so ideally this should never be a problem --- *just be careful* not to keep any important files outside of that folder.
+
+## Tips
+
+- In the graphical interface, you can move windows around by holding <kbd>Alt</kbd> or <kbd>Command</kbd> (depending on your OS) then clicking and dragging *anywhere* on a window. Use this to recover your windows if the title bar at the top of a window goes off screen.
+- You can't copy and paste into the graphical interface but you can copy and paste into a terminal interface, opened by running `docker compose exec racecar bash`. You can also edit files that are in the shared `home` directory using an editor on your host OS.
 
 ## Connecting to a physical racecar
 
