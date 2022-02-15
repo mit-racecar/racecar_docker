@@ -6,8 +6,8 @@ services:
     build: .
     image: racecar/racecar:latest
     ports:
-      - 6080:6080
-      - 11311:11311
+      - 6080:6080 # VNC
+      - 11311:11311 # ROS master
     entrypoint: entrypoint.sh
     volumes:
       - ./home:/home/racecar

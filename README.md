@@ -5,21 +5,25 @@ The image is built from a Debian base, includes the latest version of ROS, and t
 
 ## Installation
 
-If you do not already have docker, follow the install instructions for your OS [here](https://docs.docker.com/install/).
+First install `git` and Docker according to your OS:
 
-Once docker is installed and running, open up a terminal and pull the image:
+- macOS: Make sure command line tools are installed by running `xcode-select --install` in a terminal and then [install and launch Docker Desktop](https://docs.docker.com/desktop/mac/install/). Open your [Docker preferences](https://docs.docker.com/desktop/mac/#preferences) and make sure Docker Compose V2 is enabled.
+- Windows: [Install git](https://git-scm.com/download/win) and then [install and launch Docker Desktop](https://docs.docker.com/desktop/windows/install/). Open your [Docker settings](https://docs.docker.com/desktop/windows/#settings) and make sure WSL 2 and Docker Compose V2 are enabled.
+- Linux: Make sure you have [git installed](https://git-scm.com/download/linux) and then [install Docker Engine for your distro](https://docs.docker.com/engine/install/#server) and install [Docker Compose V2](https://docs.docker.com/compose/cli-command/#install-on-linux).
+
+Once everything is installed and running, if you're on macOS or Linux open a terminal and if you're on Windows open a PowerShell. Then clone and pull the image:
 
     git clone https://github.com/mit-racecar/racecar_docker.git
     cd racecar_docker
-    docker-compose pull
+    docker compose pull
 
-The image is about 1GB compressed so this can take a couple minutes. Fortunately, you only need to do it once.
+Linux users may need to use `sudo` to run `docker compose`. The image is about 1GB compressed so this can take a couple minutes. Fortunately, you only need to do it once.
 
 ## Starting Up
 
 Once the image is pulled you can start it by running the following in your `racecar_docker` directory:
 
-    docker-compose up
+    docker compose up
 
 Follow the instructions in the command prompt to connect via either a terminal or your browser.
 If you're using the browser interface, click "Connect" then right click anywhere on the black background to launch a terminal.
@@ -46,13 +50,15 @@ Once the software is installed, run
 
 You're in!
 
+**Tip**: You can move windows around by holding <kbd>Alt</kbd> or <kbd>Command</kbd> (depending on your OS) and clicking and dragging *anywhere* on a window. Use this to recover your windows if the title bar at the top of a window goes off screen.
+
 ## Shutting Down
 
 To stop the image, run:
 
-    docker-compose down
+    docker compose down
 
-If you try to rerun `docker-compose up` without first running `docker-compose down` the image may not launch properly.
+If you try to rerun `docker compose up` without first running `docker compose down` the image may not launch properly.
 
 ## Local Storage
 
@@ -78,7 +84,7 @@ To switch back to a local ROS master just change the hostname back to `127.0.0.1
 
 If you want to change the docker image and rebuild locally, all you need to do is add a `--build` flag:
 
-    docker-compose up --build
+    docker compose up --build
 
 To publish to Docker Hub you need to build a multi-architecture image so that it works on AMD and ARM platforms. If you have write access to the `racecar/racecar` repo, you can use these commands to build and push:
 
