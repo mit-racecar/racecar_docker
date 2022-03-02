@@ -81,7 +81,10 @@ RUN apt install -y \
     screen \
     tmux \
     iputils-ping \
-    feh
+    feh \
+    python-pip \
+    ros-$ROS_DISTRO-compressed-image-transport
+RUN pip install imutils
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
