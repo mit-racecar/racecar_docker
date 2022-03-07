@@ -81,10 +81,16 @@ RUN apt install -y \
     screen \
     tmux \
     iputils-ping \
-    feh \
+    feh
+
+# Fix some ROS things
+run apt install -y \
     python-pip \
-    ros-$ROS_DISTRO-compressed-image-transport
+    ros-$ROS_DISTRO-compressed-image-transport \
+    libfreetype6-dev
+RUN pip install -U pip
 RUN pip install imutils
+RUN pip install -U matplotlib
 
 # Kill the bell!
 RUN echo "set bell-style none" >> /etc/inputrc
