@@ -57,7 +57,7 @@ ENV SIM_WS /opt/ros/sim_ws
 RUN mkdir -p $SIM_WS/src
 RUN git clone https://github.com/mit-racecar/racecar_simulator.git
 RUN mv racecar_simulator $SIM_WS/src
-RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_make;'
+RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; catkin_make; catkin_make install;'
 
 # Add the ROS master
 ENV ROS_MASTER_URI http://racecar:11311
