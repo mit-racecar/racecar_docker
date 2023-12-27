@@ -1,12 +1,13 @@
 #!/bin/bash
 
+
 # Set up debug
 mkdir -p $HOME/.log
 
 # Set up ROS
-mkdir -p $HOME/racecar_ws/src
-/bin/bash -c 'source $SIM_WS/devel/setup.bash; cd $HOME/racecar_ws; catkin_make;'
-export ROS_IP=$(hostname -I)
+/bin/bash -c 'cd $HOME/racecar_ws; colcon build'
+
+# Sources racecar_ws/install/setup.bash on startup (in bash.bashrc file)
 
 # Start the VNC server
 vncserver -SecurityTypes None -xstartup xstartup.sh > $HOME/.log/TigerVNC.log 2>&1
