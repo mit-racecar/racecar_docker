@@ -73,10 +73,6 @@ RUN apt-get update && apt-get install -y \
 
 
 
-# source ROS
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
-
-
 # Set up locales
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -137,12 +133,28 @@ COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 COPY ./xstartup.sh /usr/bin/xstartup.sh
 
 
+
+
+# Create racecar_ws directory and src before switching to USER
+ENV SIM_WS /home/sim_ws
+RUN mkdir -p $SIM_WS/src && cd $SIM_WS/src && git clone https://github.com/Sebastian-Garcia/racecar_simulator.git
+RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; colcon build;'
+
+
+
 # Create a user
 RUN useradd -ms /bin/bash racecar
 RUN echo 'racecar:racecar@mit' | chpasswd
 RUN usermod -aG sudo racecar
 USER racecar
 WORKDIR /home/racecar
+
+
+# source ROS and simulator workspace 
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
+RUN echo "source $SIM_WS/install/setup.bash" >> ~/.bashrc
+
+
 
 # Copy in default config files
 COPY ./config/bash.bashrc /etc/
@@ -152,6 +164,3 @@ ADD ./config/openbox /etc/X11/openbox/
 COPY ./config/XTerm /etc/X11/app-defaults/
 COPY ./config/default.rviz .rviz2/
 
-# Pre-install and build racecar simulator package for ease of use
-RUN mkdir -p $HOME/racecar_ws/src
-RUN cd $HOME/racecar_ws && colcon build

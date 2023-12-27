@@ -5,6 +5,7 @@
 mkdir -p $HOME/.log
 
 # Set up ROS
+mkdir -p $HOME/racecar_ws/src
 /bin/bash -c 'cd $HOME/racecar_ws; colcon build'
 
 # Sources racecar_ws/install/setup.bash on startup (in bash.bashrc file)
@@ -20,7 +21,7 @@ printf "\n"
 printf "~~~~~Welcome to the racecar docker image!~~~~~"
 printf "\n\n"
 printf "To interface via a local terminal, open a new"
-printf "\n"
+printf "\n"  
 printf "terminal, cd into the racecar_docker directory"
 printf "\n"
 printf "and run:"
