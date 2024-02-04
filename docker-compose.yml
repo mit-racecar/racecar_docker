@@ -4,7 +4,7 @@ services:
 
   racecar:
     build: .
-    image: sebagarc/racecar2:latest
+    image: sebagarc/racecar2
     ports:
       - 6080:6080 # VNC
       - 11311:11311 # ROS master

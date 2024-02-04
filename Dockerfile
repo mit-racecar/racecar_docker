@@ -142,6 +142,14 @@ RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash; cd $SIM_WS; colcon bui
 
 
 
+# Copy in default config files
+COPY ./config/bash.bashrc /etc/
+COPY ./config/screenrc /etc/
+COPY ./config/vimrc /etc/vim/vimrc
+ADD ./config/openbox /etc/X11/openbox/
+COPY ./config/XTerm /etc/X11/app-defaults/
+COPY ./config/default.rviz /tmp/
+
 # Create a user
 RUN useradd -ms /bin/bash racecar
 RUN echo 'racecar:racecar@mit' | chpasswd
@@ -150,17 +158,11 @@ USER racecar
 WORKDIR /home/racecar
 
 
-# source ROS and simulator workspace 
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
-RUN echo "source $SIM_WS/install/setup.bash" >> ~/.bashrc
 
 
 
-# Copy in default config files
-COPY ./config/bash.bashrc /etc/
-COPY ./config/screenrc /etc/
-COPY ./config/vimrc /etc/vim/vimrc
-ADD ./config/openbox /etc/X11/openbox/
-COPY ./config/XTerm /etc/X11/app-defaults/
-COPY ./config/default.rviz .rviz2/
+
+
+
+
 
