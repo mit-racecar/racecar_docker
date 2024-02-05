@@ -11,7 +11,7 @@ First install `git` and Docker according to your OS:
 - Windows: [Install git](https://git-scm.com/download/win) and then [install and launch Docker Desktop](https://docs.docker.com/desktop/windows/install/). Open your [Docker settings](https://docs.docker.com/desktop/windows/#settings) and make sure WSL 2 and Docker Compose V2 are enabled.
 - Linux: Make sure you have [git installed](https://git-scm.com/download/linux) and then [install Docker Engine for your distro](https://docs.docker.com/engine/install/#server) and install [Docker Compose V2](https://docs.docker.com/compose/cli-command/#install-on-linux).
 
-Once everything is installed and running, if you're on macOS or Linux open a terminal and if you're on Windows open a PowerShell. Then clone and pull the image:
+Once everything is installed and running, if you're on macOS or Linux open a terminal and if you're on Windows open a PowerShell. Then clone and pull the image (NOTE: If using a Mac, after cloning the repository, you must go into the docker compose yaml file and change the image from "sebagarc/racecar2", to "sebagarc/racecarmac"):
 
     git clone https://github.com/mit-racecar/racecar_docker.git
     cd racecar_docker
@@ -34,7 +34,7 @@ First, connect via the graphical interfacce, right click on the background and s
 
 Next, right click on the background and select `Terminal`, then enter:
 
-    ros2 launch racecar_simulator simulate.launch
+    ros2 launch racecar_simulator simulate.launch.xml
 
 
 A graphical interface should pop up that shows a blue car on a monochrome background (a map) and some colorful dots (simulated lidar).
