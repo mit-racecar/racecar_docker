@@ -34,7 +34,7 @@ First, connect via the graphical interfacce, right click on the background and s
 
 Next, right click on the background and select `Terminal`, then enter:
 
-    ros2 launch racecar_simulator simulate.launch
+    ros2 launch racecar_simulator simulate.launch.xml
 
 
 A graphical interface should pop up that shows a blue car on a monochrome background (a map) and some colorful dots (simulated lidar).
