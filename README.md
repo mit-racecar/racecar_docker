@@ -30,13 +30,15 @@ If you're using the browser interface, click "Connect" then right click anywhere
 
 ## Example Usage
 
-Connect via the graphical interface, right click on the background and select `Terminal`, then enter:
+First, connect via the graphical interfacce, right click on the background and select `RViz`. Note: Rviz can also be launched by typing 'rviz2' in the terminal. 
 
-    roslaunch racecar_simulator simulate.launch
+Next, right click on the background and select `Terminal`, then enter:
 
-Then right click on the background and select `RViz`.
+    ros2 launch racecar_simulator simulate.launch
+
+
 A graphical interface should pop up that shows a blue car on a monochrome background (a map) and some colorful dots (simulated lidar).
-If you click the green "2D Pose Estimate" arrow on the top and then drag on the map you can change the position of the car.
+If you click the green "2D Pose Estimate" arrow on the top and then drag on the map you can change the position of the car. Note: when launching most scripts to be visualized, make sure that you launch Rviz first, otherwise certain features might not appear. 
 
 Close RViz and type <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal running the simulator to stop it. Now we're going to try to install some software. In any terminal run:
 
@@ -68,8 +70,11 @@ The only changes you will ever need to make for your labs will be in your home f
 - In the graphical interface, you can move windows around by holding <kbd>Alt</kbd> or <kbd>Command</kbd> (depending on your OS) then clicking and dragging *anywhere* on a window. Use this to recover your windows if the title bar at the top of a window goes off screen.
 - You can't copy and paste into the graphical interface but you can copy and paste into a terminal interface, opened by running `docker compose exec racecar bash`. You can also edit files that are in the shared `home` directory using an editor on your host OS.
 
+
 ## Connecting to a physical racecar
 
+(To be changed and edited. Coming soon!
+)
 To connect your docker image to a ROS master running on a physical racecar, open the `docker-compose.yml` and change the `racecar` hostname under the `extra_hosts` field from `127.0.0.1` to your car's IP. For example, for car number 100 you would put:
 
     extra_hosts:
@@ -79,9 +84,8 @@ Then restart the docker image. This does not require the image to be rebuilt. Yo
 
     ssh racecar
 
-If you publish to topics on the racecar you should be able to print them via `rostopic echo` or visualize them in RViz on your docker image.
+If you publish to topics on the racecar you should be able to print them via `ros2 topic echo <topic name>` or visualize them in RViz on your docker image.
 
-To switch back to a local ROS master just change the hostname back to `127.0.0.1` and restart the image.
 
 ## Custom Builds
 
@@ -89,8 +93,4 @@ If you want to change the docker image and rebuild locally, all you need to do i
 
     docker compose up --build
 
-To publish to Docker Hub you need to build a multi-architecture image so that it works on AMD and ARM platforms. If you have write access to the `racecar/racecar` repo, you can use these commands to build and push:
 
-    docker buildx create --name mybuilder --use
-    docker login
-    sudo docker buildx build . --platform linux/arm64,linux/amd64 --tag racecar/racecar:latest --push 

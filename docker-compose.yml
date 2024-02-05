@@ -4,13 +4,10 @@ services:
 
   racecar:
     build: .
-    image: racecar/racecar:latest
+    image: sebagarc/racecar2
     ports:
       - 6080:6080 # VNC
       - 11311:11311 # ROS master
     entrypoint: entrypoint.sh
     volumes:
       - ./home:/home/racecar
-
-    extra_hosts:
-      racecar: 127.0.0.1
