@@ -40,7 +40,7 @@ Next, right click on the background and select `Terminal`, then enter:
 A graphical interface should pop up that shows a blue car on a monochrome background (a map) and some colorful dots (simulated lidar).
 If you click the green "2D Pose Estimate" arrow on the top and then drag on the map you can change the position of the car. Note: when launching most scripts to be visualized, make sure that you launch Rviz first, otherwise certain features might not appear. 
 
-Close RViz and type <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal running the simulator to stop it. Now we're going to try to install some software. In any terminal run:
+Close RViz and type <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal running the simulator (in your graphical interface that is on the browser) to stop it. Now we're going to try to install some software. In any terminal run:
 
     sudo apt update
     sudo apt install cmatrix
