@@ -8,7 +8,7 @@ The image is built from a Debian base, includes the latest version of ROS, and t
 First install `git` and Docker according to your OS:
 
 - macOS: Make sure command line tools are installed by running `xcode-select --install` in a terminal and then [install and launch Docker Desktop](https://docs.docker.com/desktop/mac/install/). Open your [Docker preferences](https://docs.docker.com/desktop/mac/#preferences) and make sure Docker Compose V2 is enabled.
-- Windows: [Install git](https://git-scm.com/download/win) and then [install and launch Docker Desktop](https://docs.docker.com/desktop/windows/install/). Open your [Docker settings](https://docs.docker.com/desktop/windows/#settings) and make sure WSL 2 and Docker Compose V2 are enabled.
+- Windows: [Install git](https://git-scm.com/download/win) and then [install and launch Docker Desktop](https://docs.docker.com/desktop/windows/install/).
 - Linux: Make sure you have [git installed](https://git-scm.com/download/linux) and then [install Docker Engine for your distro](https://docs.docker.com/engine/install/#server) and install [Docker Compose V2](https://docs.docker.com/compose/cli-command/#install-on-linux).
 
 Once everything is installed and running, if you're on macOS or Linux open a terminal and if you're on Windows open a PowerShell. Then clone and pull the image (NOTE: If using a Mac, after cloning the repository, you must go into the docker compose yaml file and change the image from "sebagarc/racecar2", to "sebagarc/racecarmac"):
